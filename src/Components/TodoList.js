@@ -10,62 +10,71 @@ import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import Delete from "@mui/icons-material/Delete";
-
-function createData(title, desc, deadline, priority, action) {
-  return { title, desc, deadline, priority, action };
-}
-
-const rows = [
-  createData("Shital", "Manage App Department", "23 / 07", "High"),
-  createData("Kajal", "Backend app Manage", "2 / 07", "low"),
-  createData("Pooja", "Detail Employee", "5 / 07", "midum"),
-];
+import TodoItem from "./TodoItem";
 
 export default function TodoList() {
-  const handleDelete = (title) => {
-    console.log("title", title);
+  const [text, setText] = React.useState("");
+  const [tasks, setTask] = React.useState([
+    {
+      id: 1,
+      text: "first task",
+      completed: true,
+    },
+    {
+      id: 2,
+      text: "first task",
+      completed: false,
+    },
+    {
+      id: 3,
+      text: "first task",
+      completed: true,
+    },
+  ]);
+
+  const addTask = (text) => {
+    const newTask = {
+      id: Date.now(),
+      text,
+      completed: false,
+    };
+
+    setTask([...tasks, newTask]);
+    setText("");
   };
+
+  function deleteTask(id) {
+    setTask(tasks.filter((task) => task.id !== id));
+  }
+
+  function toggleCompleted(id) {
+    console.log("id 52", id);
+
+    setTask(
+      tasks.map((task) => {
+        if (task.id === id) {
+          return { ...task, completed: !task.completed };
+        } else {
+          return task;
+        }
+      })
+    );
+  }
 
   return (
     <>
-      <Button>
-        <Link to="/create">Create</Link>
-      </Button>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Title</TableCell>
-              <TableCell align="left">Description</TableCell>
-              <TableCell align="left">Deadline</TableCell>
-              <TableCell align="left">Priority</TableCell>
-              <TableCell align="left">Action</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row) => (
-              <TableRow
-                key={row.title}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                <TableCell component="th" scope="row">
-                  {row.title}
-                </TableCell>
-                <TableCell align="left">{row.desc}</TableCell>
-                <TableCell align="left">{row.deadline}</TableCell>
-                <TableCell align="left">{row.priority}</TableCell>
-                <TableCell align="left">
-                  <Button onClick={() => handleDelete(row.title)}>
-                    <Delete />
-                  </Button>
-                  <Button>
-                    <ModeEditIcon />
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <div className="todo-list">
+        {tasks.map((task) => (
+          <TodoItem
+            key={task.id}
+            task={task}
+            deleteTask={deleteTask}
+            toggleCompleted={toggleCompleted}
+          />
+        ))}
+        <input value={text} onChange={(e) => setText(e.target.value)} />
+        <button onClick={() => addTask(text)}>Add</button>
+      </div>
     </>
   );
 }
