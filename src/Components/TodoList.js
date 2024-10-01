@@ -1,15 +1,4 @@
 import * as React from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import { Button } from "@mui/material";
-import { Link } from "react-router-dom";
-import ModeEditIcon from "@mui/icons-material/ModeEdit";
-import Delete from "@mui/icons-material/Delete";
 import TodoItem from "./TodoItem";
 
 export default function TodoList() {
@@ -22,12 +11,12 @@ export default function TodoList() {
     },
     {
       id: 2,
-      text: "first task",
+      text: "Second task",
       completed: false,
     },
     {
       id: 3,
-      text: "first task",
+      text: "third task",
       completed: true,
     },
   ]);
@@ -48,8 +37,6 @@ export default function TodoList() {
   }
 
   function toggleCompleted(id) {
-    console.log("id 52", id);
-
     setTask(
       tasks.map((task) => {
         if (task.id === id) {

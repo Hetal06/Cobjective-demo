@@ -5,9 +5,9 @@ import { Outlet } from "react-router-dom";
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
+      {/* <header className="App-header">
         <h2>Todo Application</h2>
-      </header>
+      </header> */}
       <div>
         <Outlet />
       </div>
